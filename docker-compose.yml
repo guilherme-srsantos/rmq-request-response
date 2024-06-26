@@ -1,0 +1,50 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+version: '3.4'
+
+services:
+  client:
+    image: client
+    build:
+      context: .
+      dockerfile: src/Client/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5213
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+    ports:
+      - 5091:5213
+      - 5001:5001  # VS debugger port
+    volumes:
+      - ./src/Client:/app
+      - ~/.nuget/packages:/root/.nuget/packages:ro
+    entrypoint: dotnet watch run --no-launch-profile
+
+  server:
+    image: server
+    build:
+      context: .
+      dockerfile: src/Server/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5214
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+    ports:
+      - 5092:5214
+      - 5002:5002  # VS debugger port
+    volumes:
+      - ./src/Server:/app
+      - ~/.nuget/packages:/root/.nuget/packages:ro
+    entrypoint: dotnet watch run --no-launch-profile
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq_management
+    ports:
+      - 5672:5672   # AMQP protocol port
+      - 15672:15672 # Management UI
+    volumes:
+      - /docker_conf/rabbitmq/data/:/var/lib/rabbitmq/
+    environment:
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+    restart: always

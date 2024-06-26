@@ -1,0 +1,60 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+services:
+  client:
+    image: client
+    build:
+      context: .
+      dockerfile: src/Client/Dockerfile
+      args:
+        - configuration=Debug
+    ports:
+      - 5091:443
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80;https://+:443
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=teste1234
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
+      - ${HOME}/.aspnet/https:/https
+  server:
+    image: server
+    build:
+      context: .
+      dockerfile: src/Server/Dockerfile
+      args:
+        - configuration=Debug
+    ports:
+      - 5092:443
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80;https://+:443
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=teste1234
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
+      - ${HOME}/.aspnet/https:/https
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq_management
+    ports:
+      - 5672:5672   # AMQP protocol port
+      - 15672:15672 # Management UI
+    volumes:
+      - /docker_conf/rabbitmq/data/:/var/lib/rabbitmq/
+    environment:
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+    restart: always
+  db:
+    image: postgres:16.3
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=teste1234
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+volumes:
+  postgres_data:

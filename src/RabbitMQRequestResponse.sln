@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{B4181461-D5A3-4038-BAF9-EB4484C2F98E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{B8F7B798-BC12-4A0B-984D-4C4AF323F658}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{ACEDBC2C-7D73-4FEC-BDE8-45562B7064C9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B4181461-D5A3-4038-BAF9-EB4484C2F98E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4181461-D5A3-4038-BAF9-EB4484C2F98E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4181461-D5A3-4038-BAF9-EB4484C2F98E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4181461-D5A3-4038-BAF9-EB4484C2F98E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8F7B798-BC12-4A0B-984D-4C4AF323F658}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8F7B798-BC12-4A0B-984D-4C4AF323F658}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8F7B798-BC12-4A0B-984D-4C4AF323F658}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8F7B798-BC12-4A0B-984D-4C4AF323F658}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACEDBC2C-7D73-4FEC-BDE8-45562B7064C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACEDBC2C-7D73-4FEC-BDE8-45562B7064C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACEDBC2C-7D73-4FEC-BDE8-45562B7064C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACEDBC2C-7D73-4FEC-BDE8-45562B7064C9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

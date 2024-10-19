@@ -3,6 +3,9 @@
 services:
   client:
     image: client
+    depends_on:
+      - db
+      - rabbitmq
     build:
       context: .
       dockerfile: src/Client/Dockerfile
@@ -20,12 +23,16 @@ services:
       - ${HOME}/.aspnet/https:/https
   server:
     image: server
+    depends_on:
+      - db
+      - rabbitmq
     build:
       context: .
       dockerfile: src/Server/Dockerfile
       args:
         - configuration=Debug
     ports:
+      - 5094:80
       - 5092:443
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -56,5 +63,19 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
 volumes:
   postgres_data:
+  prometheus_data:

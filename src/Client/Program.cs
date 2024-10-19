@@ -32,13 +32,23 @@ app.UseHttpsRedirection();
 app.MapGet("/", async (
     [FromServices] ILogger<Program> logger, 
     [FromServices] IRequestClient<GetDataRequest> client) => {
-    
-    var response = await client.GetResponse<GetDataResponse>(new GetDataRequest {
+
+    try
+    {
+        var response = await client.GetResponse<GetDataResponse>(new GetDataRequest {
         Id = Guid.NewGuid()
     });
 
     logger.LogInformation("Teste");
     return Results.Ok(response);
+    }
+    catch (Exception ex)
+    {        
+        logger.LogError("ERROR {ex}", ex.Message);
+        return Results.StatusCode(StatusCodes.Status500InternalServerError);
+    }
+    
+    
 });
 
 app.Run();

@@ -2,11 +2,13 @@ using System.Diagnostics.Metrics;
 using Grpc.Core;
 using MassTransit;
 using MassTransit.Monitoring;
+using Microsoft.EntityFrameworkCore;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using Prometheus;
 using Server;
+using Server.Data;
 internal class Program
 {
     private static readonly Meter MyMeter = new Meter("Teste.Server", "1.0");
@@ -68,7 +70,9 @@ internal class Program
                          );
 
 
-
+        builder.Services.AddDbContextFactory<TestContext>(options => {
+            options.UseNpgsql(Environment.GetEnvironmentVariable("DbPath")!);
+        });
 
         var app = builder.Build();
 
